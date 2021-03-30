@@ -5,9 +5,20 @@ interface Rates {
   i: number;
 }
 
-interface Industry {
+interface Firms {
   name: string;
   rank: number;
   new: Rates;
   old: Rates;
+  tetr: {
+    old: number;
+    new: number;
+  };
+}
+
+interface StateData {
+  name: string;
+  tier1: string;
+  tier2: string;
+  firms: Firms[];
 }
