@@ -1,20 +1,22 @@
 import React from 'react';
-import { axisLeft, axisBottom } from 'd3-axis';
 import { scaleLinear, scaleBand, ScaleBand, ScaleLinear } from 'd3-scale';
 
 import firmTypes from '../data/firm-types.json';
+import YAxis from './yAxis';
 
-const dimensions = {
+const dimensions: dimensions = {
   width: 800,
   height: 500,
 };
 
-const margin = {
+const margin: margin = {
   top: 20,
   right: 20,
-  bottom: 20,
-  left: 20,
+  bottom: 40,
+  left: 40,
 };
+
+const yDomain: number[] = [0, 0.35];
 
 const firmScale: ScaleBand<string> = scaleBand();
 firmScale.domain(firmTypes);
@@ -29,7 +31,7 @@ oldAndNewScale.round(true);
 oldAndNewScale.padding(0.1);
 
 const yScale: ScaleLinear<number, number> = scaleLinear();
-yScale.domain([0, 0.35]);
+yScale.domain(yDomain);
 yScale.range([0, dimensions.height - margin.top - margin.bottom]);
 
 const Bars: React.VFC<{
@@ -95,12 +97,18 @@ const BarChart: React.VFC<{ firms: Firm[] }> = ({ firms }) => {
   return (
     <div>
       <svg viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}>
-        <g id="bars"></g>
-        <g id="left-axis"></g>
+        <g id="bars" transform={`translate(${margin.left}, ${margin.right})`}>
+          {firms.map(firm => (
+            <BarGroup key={`firm-${firm.name}`} firm={firm} />
+          ))}
+        </g>
+        <YAxis
+          domain={yDomain}
+          scale={yScale}
+          dimensions={dimensions}
+          margin={margin}
+        />
         <g id="bottom-axis"></g>
-        {firms.map(firm => (
-          <BarGroup key={`firm-${firm.name}`} firm={firm} />
-        ))}
       </svg>
     </div>
   );

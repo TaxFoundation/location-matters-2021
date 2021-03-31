@@ -22,3 +22,15 @@ interface StateData {
   tier2: string;
   firms: Firm[];
 }
+
+interface dimensions {
+  width: number;
+  height: number;
+}
+
+interface margin {
+  top: number;
+  right: number;
+  bottom: number;
+  left: number;
+}
