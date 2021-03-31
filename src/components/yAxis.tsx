@@ -16,15 +16,12 @@ const YAxis: React.VFC<{
 
   return (
     <g transform={`translate(${margin.left}, ${margin.top})`}>
-      <line
-        x1={0}
-        x2={0}
-        y1={scale(domain[0])}
-        y2={scale(domain[1])}
-        stroke="currentColor"
-      />
       {ticks.map(({ value, yOffset }) => (
         <g key={`y-${value}`} transform={`translate(0, ${yOffset})`}>
+          <line
+            x2={dimensions.width - margin.left - margin.right}
+            stroke="#ccc"
+          ></line>
           <line x2="-6" stroke="currentColor"></line>
           <text
             style={{
@@ -40,6 +37,13 @@ const YAxis: React.VFC<{
           </text>
         </g>
       ))}
+      <line
+        x1={0}
+        x2={0}
+        y1={scale(domain[0])}
+        y2={scale(domain[1])}
+        stroke="currentColor"
+      />
     </g>
   );
 };

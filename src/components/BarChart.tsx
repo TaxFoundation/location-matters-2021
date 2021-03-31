@@ -98,6 +98,12 @@ const BarChart: React.VFC<{ firms: Firm[] }> = ({ firms }) => {
   return (
     <div>
       <svg viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}>
+        <YAxis
+          domain={yDomain}
+          scale={yScale}
+          dimensions={dimensions}
+          margin={margin}
+        />
         <g id="bars" transform={`translate(${margin.left}, ${margin.right})`}>
           {firms.map(firm => (
             <BarGroup key={`firm-${firm.name}`} firm={firm} />
@@ -106,12 +112,6 @@ const BarChart: React.VFC<{ firms: Firm[] }> = ({ firms }) => {
         <XAxis
           domain={firmTypes}
           scale={firmScale}
-          dimensions={dimensions}
-          margin={margin}
-        />
-        <YAxis
-          domain={yDomain}
-          scale={yScale}
           dimensions={dimensions}
           margin={margin}
         />
