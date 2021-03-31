@@ -4,6 +4,7 @@ import { scaleLinear, scaleBand, ScaleBand, ScaleLinear } from 'd3-scale';
 import firmTypes from '../data/firm-types.json';
 import XAxis from './xAxis';
 import YAxis from './yAxis';
+import Text from './Text';
 
 const dimensions: dimensions = {
   width: 800,
@@ -35,11 +36,19 @@ const yScale: ScaleLinear<number, number> = scaleLinear();
 yScale.domain(yDomain);
 yScale.range([0, dimensions.height - margin.top - margin.bottom]);
 
+const formatter = (value: number): string => {
+  return new Intl.NumberFormat('en-US', {
+    style: 'percent',
+    minimumFractionDigits: 2,
+  }).format(value);
+};
+
 const Bars: React.VFC<{
   rates: Rates;
   type: string;
 }> = ({ rates, type }) => {
-  const bottom: number = dimensions.height - margin.top - margin.bottom;
+  const bottom = dimensions.height - margin.top - margin.bottom;
+  const totalRates = rates.ui + rates.s + rates.p + rates.i;
   const uiHeight = yScale(0) - yScale(rates.ui);
   const sHeight = yScale(0) - yScale(rates.s);
   const pHeight = yScale(0) - yScale(rates.p);
@@ -47,6 +56,14 @@ const Bars: React.VFC<{
 
   return (
     <g transform={`translate(${oldAndNewScale(type)}, 0)`}>
+      <Text
+        transform={`translate(
+          ${oldAndNewScale.bandwidth() / 2},
+          ${yScale(totalRates) - 5}
+        )`}
+      >
+        {formatter(totalRates)}
+      </Text>
       <rect
         fill="#b81515"
         y={bottom - uiHeight}

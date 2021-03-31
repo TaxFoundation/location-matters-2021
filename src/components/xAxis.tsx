@@ -1,5 +1,7 @@
 import { ScaleBand } from 'd3-scale';
-import React, { useMemo } from 'react';
+import React from 'react';
+
+import Text from './Text';
 
 const XAxis: React.VFC<{
   domain: string[];
@@ -29,16 +31,7 @@ const XAxis: React.VFC<{
             y2="6"
             stroke="currentColor"
           ></line>
-          <text
-            style={{
-              fontFamily: 'sans-serif',
-              fontSize: '10px',
-              fontWeight: 400,
-              stroke: 'currentcolor',
-              textAnchor: 'middle',
-              transform: 'translate(0, 20px)',
-            }}
-          >
+          <Text transform="translate(0, 20px)">
             {value.split(' ').map((word, i) => {
               return (
                 <tspan x={xPosition(value)} dy={16 * i}>
@@ -46,7 +39,7 @@ const XAxis: React.VFC<{
                 </tspan>
               );
             })}
-          </text>
+          </Text>
         </g>
       ))}
     </g>
