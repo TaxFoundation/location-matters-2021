@@ -1,6 +1,7 @@
 import { ScaleLinear } from 'd3-scale';
 import React, { useMemo } from 'react';
 
+import { formatter } from '../helpers';
 import Text from './Text';
 
 const YAxis: React.VFC<{
@@ -26,7 +27,7 @@ const YAxis: React.VFC<{
           ></line>
           <line x2="-6" stroke="currentColor"></line>
           <Text textAnchor="end" transform="translate(-10px, 3px)">
-            {value}
+            {formatter(value, 0)}
           </Text>
         </g>
       ))}

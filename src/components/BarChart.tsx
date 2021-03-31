@@ -2,6 +2,7 @@ import React from 'react';
 import { scaleLinear, scaleBand, ScaleBand, ScaleLinear } from 'd3-scale';
 
 import firmTypes from '../data/firm-types.json';
+import { formatter } from '../helpers';
 import XAxis from './xAxis';
 import YAxis from './yAxis';
 import Text from './Text';
@@ -35,13 +36,6 @@ oldAndNewScale.padding(0.1);
 const yScale: ScaleLinear<number, number> = scaleLinear();
 yScale.domain(yDomain);
 yScale.range([0, dimensions.height - margin.top - margin.bottom]);
-
-const formatter = (value: number): string => {
-  return new Intl.NumberFormat('en-US', {
-    style: 'percent',
-    minimumFractionDigits: 2,
-  }).format(value);
-};
 
 const Bars: React.VFC<{
   rates: Rates;
