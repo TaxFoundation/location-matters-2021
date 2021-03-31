@@ -5,7 +5,7 @@ interface Rates {
   i: number;
 }
 
-interface Firms {
+interface Firm {
   name: string;
   rank: number;
   new: Rates;
@@ -20,5 +20,5 @@ interface StateData {
   name: string;
   tier1: string;
   tier2: string;
-  firms: Firms[];
+  firms: Firm[];
 }

@@ -7,11 +7,10 @@ import BarChart from './components/BarChart';
 
 function App() {
   const [usState, setUsState] = useState<string>('Alabama');
-  const [stateData, setStateData] = useState<any | null>(null);
+  const [stateData, setStateData] = useState<StateData | null>(null);
 
   useEffect(() => {
-    const theData: any = data.find(d => d.name === usState)!;
-    setStateData(theData);
+    setStateData((data.find(d => d.name === usState) as unknown) as StateData);
   }, [usState]);
 
   return (
