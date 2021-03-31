@@ -17,7 +17,7 @@ const margin: margin = {
   left: 40,
 };
 
-const yDomain: number[] = [0, 0.35];
+const yDomain: number[] = [0.35, 0];
 
 const firmScale: ScaleBand<string> = scaleBand();
 firmScale.domain(firmTypes);
@@ -40,42 +40,36 @@ const Bars: React.VFC<{
   type: string;
 }> = ({ rates, type }) => {
   const bottom: number = dimensions.height - margin.top - margin.bottom;
+  const uiHeight = yScale(0) - yScale(rates.ui);
+  const sHeight = yScale(0) - yScale(rates.s);
+  const pHeight = yScale(0) - yScale(rates.p);
+  const iHeight = yScale(0) - yScale(rates.i);
 
   return (
-    <g>
+    <g transform={`translate(${oldAndNewScale(type)}, 0)`}>
       <rect
         fill="#b81515"
-        x={oldAndNewScale(type)}
-        y={bottom - yScale(rates.ui)}
+        y={bottom - uiHeight}
         width={oldAndNewScale.bandwidth()}
-        height={yScale(rates.ui)}
+        height={uiHeight}
       ></rect>
       <rect
         fill="#23a089"
-        x={oldAndNewScale(type)}
-        y={bottom - yScale(rates.ui) - yScale(rates.s)}
+        y={bottom - uiHeight - sHeight}
         width={oldAndNewScale.bandwidth()}
-        height={yScale(rates.s)}
+        height={sHeight}
       ></rect>
       <rect
         fill="#6711a0"
-        x={oldAndNewScale(type)}
-        y={bottom - yScale(rates.ui) - yScale(rates.s) - yScale(rates.p)}
+        y={bottom - uiHeight - sHeight - pHeight}
         width={oldAndNewScale.bandwidth()}
-        height={yScale(rates.p)}
+        height={pHeight}
       ></rect>
       <rect
         fill="#d2cd3a"
-        x={oldAndNewScale(type)}
-        y={
-          bottom -
-          yScale(rates.ui) -
-          yScale(rates.s) -
-          yScale(rates.p) -
-          yScale(rates.i)
-        }
+        y={bottom - uiHeight - sHeight - pHeight - iHeight}
         width={oldAndNewScale.bandwidth()}
-        height={yScale(rates.i)}
+        height={iHeight}
       ></rect>
     </g>
   );
@@ -93,8 +87,6 @@ const BarGroup: React.VFC<{
 };
 
 const BarChart: React.VFC<{ firms: Firm[] }> = ({ firms }) => {
-  const firmNames: string[] = firms.map(f => f.name);
-
   return (
     <div>
       <svg viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}>
