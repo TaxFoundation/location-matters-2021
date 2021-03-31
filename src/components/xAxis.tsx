@@ -34,7 +34,11 @@ const XAxis: React.VFC<{
           <Text transform="translate(0, 20px)">
             {value.split(' ').map((word, i) => {
               return (
-                <tspan x={xPosition(value)} dy={16 * i}>
+                <tspan
+                  key={`firm-${value}-${i}`}
+                  x={xPosition(value)}
+                  dy={16 * i}
+                >
                   {word}
                 </tspan>
               );

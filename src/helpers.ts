@@ -1,4 +1,4 @@
-const formatter = (value: number, digits: number = 2): string => {
+const formatter = (value: number, digits = 2): string => {
   return new Intl.NumberFormat('en-US', {
     style: 'percent',
     minimumFractionDigits: digits,
