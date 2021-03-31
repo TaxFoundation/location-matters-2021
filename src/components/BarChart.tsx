@@ -2,6 +2,7 @@ import React from 'react';
 import { scaleLinear, scaleBand, ScaleBand, ScaleLinear } from 'd3-scale';
 
 import firmTypes from '../data/firm-types.json';
+import XAxis from './xAxis';
 import YAxis from './yAxis';
 
 const dimensions: dimensions = {
@@ -102,13 +103,18 @@ const BarChart: React.VFC<{ firms: Firm[] }> = ({ firms }) => {
             <BarGroup key={`firm-${firm.name}`} firm={firm} />
           ))}
         </g>
+        <XAxis
+          domain={firmTypes}
+          scale={firmScale}
+          dimensions={dimensions}
+          margin={margin}
+        />
         <YAxis
           domain={yDomain}
           scale={yScale}
           dimensions={dimensions}
           margin={margin}
         />
-        <g id="bottom-axis"></g>
       </svg>
     </div>
   );
