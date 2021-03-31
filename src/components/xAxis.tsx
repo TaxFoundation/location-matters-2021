@@ -4,18 +4,27 @@ import React from 'react';
 import Text from './Text';
 
 const XAxis: React.VFC<{
+  title: string;
   domain: string[];
   scale: ScaleBand<string>;
   dimensions: dimensions;
   margin: margin;
-}> = ({ domain, scale, dimensions, margin }) => {
+}> = ({ title, domain, scale, dimensions, margin }) => {
   const bottom: number = dimensions.height - margin.top - margin.bottom;
   const xPosition = (value: string): number => {
     return scale(value)! + scale.bandwidth() / 2;
   };
 
+  const labelPosition = (dimensions.width - margin.left - margin.right) / 2;
+
   return (
     <g transform={`translate(${margin.left}, ${margin.top})`}>
+      <Text
+        fontSize="18px"
+        transform={`translate(${labelPosition}px, ${dimensions.height - 24}px)`}
+      >
+        {title}
+      </Text>
       <line
         x1={0}
         x2={dimensions.width - margin.left - margin.right}
@@ -31,7 +40,7 @@ const XAxis: React.VFC<{
             y2="6"
             stroke="currentColor"
           ></line>
-          <Text transform="translate(0, 20px)">
+          <Text transform="translate(0, 20px)" fontSize="14px">
             {value.split(' ').map((word, i) => {
               return (
                 <tspan

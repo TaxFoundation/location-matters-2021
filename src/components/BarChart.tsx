@@ -15,8 +15,8 @@ const dimensions: dimensions = {
 const margin: margin = {
   top: 20,
   right: 20,
-  bottom: 40,
-  left: 40,
+  bottom: 70,
+  left: 60,
 };
 
 const yDomain: number[] = [0.35, 0];
@@ -102,6 +102,7 @@ const BarChart: React.VFC<{ firms: Firm[] }> = ({ firms }) => {
     <div>
       <svg viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}>
         <YAxis
+          title="Tax Rate"
           domain={yDomain}
           scale={yScale}
           dimensions={dimensions}
@@ -113,6 +114,7 @@ const BarChart: React.VFC<{ firms: Firm[] }> = ({ firms }) => {
           ))}
         </g>
         <XAxis
+          title="Type of Firm"
           domain={firmTypes}
           scale={firmScale}
           dimensions={dimensions}

@@ -5,11 +5,12 @@ import { formatter } from '../helpers';
 import Text from './Text';
 
 const YAxis: React.VFC<{
+  title: string;
   domain: number[];
   scale: ScaleLinear<number, number>;
   dimensions: dimensions;
   margin: margin;
-}> = ({ domain, scale, dimensions, margin }) => {
+}> = ({ title, domain, scale, dimensions, margin }) => {
   const ticks = useMemo(() => {
     return scale.ticks().map((value: any) => ({
       value,
@@ -17,8 +18,18 @@ const YAxis: React.VFC<{
     }));
   }, []);
 
+  const labelPosition = (dimensions.height - margin.top - margin.bottom) / 2;
+
   return (
     <g transform={`translate(${margin.left}, ${margin.top})`}>
+      <Text
+        fontSize="18px"
+        transform={`translate(-${
+          margin.left - 15
+        }px, ${labelPosition}px) rotate(-90deg)`}
+      >
+        {title}
+      </Text>
       {ticks.map(({ value, yOffset }) => (
         <g key={`y-${value}`} transform={`translate(0, ${yOffset})`}>
           <line
