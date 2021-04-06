@@ -37,6 +37,10 @@ const yScale: ScaleLinear<number, number> = scaleLinear();
 yScale.domain(yDomain);
 yScale.range([0, dimensions.height - margin.top - margin.bottom]);
 
+const getHeight = (scaleZero: number, scaleRate: number): number => {
+  return Math.abs(scaleZero - scaleRate);
+};
+
 const Bar = ({
   title,
   rate,
@@ -66,10 +70,10 @@ const Bars: React.VFC<{
 }> = ({ rates, type }) => {
   const bottom = dimensions.height - margin.top - margin.bottom;
   const totalRates = rates.ui + rates.s + rates.p + rates.i;
-  const uiHeight = yScale(0) - yScale(rates.ui);
-  const sHeight = yScale(0) - yScale(rates.s);
-  const pHeight = yScale(0) - yScale(rates.p);
-  const iHeight = yScale(0) - yScale(rates.i);
+  const uiHeight = getHeight(yScale(0), yScale(rates.ui));
+  const sHeight = getHeight(yScale(0), yScale(rates.s));
+  const pHeight = getHeight(yScale(0), yScale(rates.p));
+  const iHeight = getHeight(yScale(0), yScale(rates.i));
   const bars = [
     {
       rate: rates.ui,
