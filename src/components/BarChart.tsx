@@ -37,6 +37,29 @@ const yScale: ScaleLinear<number, number> = scaleLinear();
 yScale.domain(yDomain);
 yScale.range([0, dimensions.height - margin.top - margin.bottom]);
 
+const Bar = ({
+  title,
+  rate,
+  fill,
+  y,
+  width,
+  height,
+}: {
+  title: string;
+  rate: number;
+  fill: string;
+  y: number;
+  width: number;
+  height: number;
+}): JSX.Element => {
+  return (
+    <g>
+      <title>{`${title}: ${formatter(rate)}`}</title>
+      <rect fill={fill} y={y} width={width} height={height}></rect>
+    </g>
+  );
+};
+
 const Bars: React.VFC<{
   rates: Rates;
   type: string;
@@ -47,6 +70,36 @@ const Bars: React.VFC<{
   const sHeight = yScale(0) - yScale(rates.s);
   const pHeight = yScale(0) - yScale(rates.p);
   const iHeight = yScale(0) - yScale(rates.i);
+  const bars = [
+    {
+      rate: rates.ui,
+      title: 'Unemployment Insurance',
+      fill: '#b81515',
+      height: uiHeight,
+      y: bottom - uiHeight,
+    },
+    {
+      rate: rates.s,
+      title: 'Sales Tax',
+      fill: '#23a089',
+      height: sHeight,
+      y: bottom - uiHeight - sHeight,
+    },
+    {
+      rate: rates.p,
+      title: 'Property Tax',
+      fill: '#6711a0',
+      height: pHeight,
+      y: bottom - uiHeight - sHeight - pHeight,
+    },
+    {
+      rate: rates.i,
+      title: 'Income Tax',
+      fill: '#d2cd3a',
+      height: iHeight,
+      y: bottom - uiHeight - sHeight - pHeight - iHeight,
+    },
+  ];
 
   return (
     <g transform={`translate(${oldAndNewScale(type)}, 0)`}>
@@ -58,30 +111,17 @@ const Bars: React.VFC<{
       >
         {formatter(totalRates)}
       </Text>
-      <rect
-        fill="#b81515"
-        y={bottom - uiHeight}
-        width={oldAndNewScale.bandwidth()}
-        height={uiHeight}
-      ></rect>
-      <rect
-        fill="#23a089"
-        y={bottom - uiHeight - sHeight}
-        width={oldAndNewScale.bandwidth()}
-        height={sHeight}
-      ></rect>
-      <rect
-        fill="#6711a0"
-        y={bottom - uiHeight - sHeight - pHeight}
-        width={oldAndNewScale.bandwidth()}
-        height={pHeight}
-      ></rect>
-      <rect
-        fill="#d2cd3a"
-        y={bottom - uiHeight - sHeight - pHeight - iHeight}
-        width={oldAndNewScale.bandwidth()}
-        height={iHeight}
-      ></rect>
+      {bars.map(bar => (
+        <Bar
+          key={`${type}-${bar.title}`}
+          title={bar.title}
+          rate={bar.rate}
+          fill={bar.fill}
+          width={oldAndNewScale.bandwidth()}
+          y={bar.y}
+          height={bar.height}
+        />
+      ))}
     </g>
   );
 };

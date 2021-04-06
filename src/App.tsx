@@ -5,7 +5,7 @@ import text from './data/lm-text.json';
 
 import BarChart from './components/BarChart';
 
-function App() {
+function App(): JSX.Element {
   const [usState, setUsState] = useState<string>('Alabama');
   const [stateData, setStateData] = useState<StateData | null>(null);
 
