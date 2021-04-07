@@ -7,7 +7,6 @@ interface Rates {
 
 interface Firm {
   name: string;
-  rank: number;
   new: Rates;
   old: Rates;
   tetr: {
@@ -18,8 +17,8 @@ interface Firm {
 
 interface StateData {
   name: string;
-  tier1: string;
-  tier2: string;
+  fips: number;
+  abbr: string;
   firms: Firm[];
 }
 

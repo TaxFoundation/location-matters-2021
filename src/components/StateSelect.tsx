@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const states: string[] = ['Alabama', 'Alaska'];
+import STATES from '../data/states.json';
 
 const Container = styled.div`
   background-color: #0094ff;
@@ -51,8 +51,8 @@ const Select = styled.select`
 `;
 
 interface ISelectProps {
-  value: string;
-  setValue: (value: string) => void;
+  value: number;
+  setValue: (value: number) => void;
 }
 
 const StateSelect = ({ value, setValue }: ISelectProps): JSX.Element => {
@@ -64,13 +64,13 @@ const StateSelect = ({ value, setValue }: ISelectProps): JSX.Element => {
           name="option-select"
           id="option-select"
           value={value}
-          onChange={e => setValue(e.target.value)}
+          onChange={e => setValue(+e.target.value)}
         >
-          {states
+          {STATES
             // .sort((a, b) => a.id - b.id)
             .map(state => (
-              <option key={state} value={state}>
-                {state}
+              <option key={state.fips} value={state.fips}>
+                {state.name}
               </option>
             ))}
         </Select>

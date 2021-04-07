@@ -7,11 +7,11 @@ import StateSelect from './components/StateSelect';
 import BarChart from './components/BarChart';
 
 function App(): JSX.Element {
-  const [usState, setUsState] = useState<string>('Alabama');
+  const [usState, setUsState] = useState<number>(1);
   const [stateData, setStateData] = useState<StateData | null>(null);
 
   useEffect(() => {
-    setStateData((data.find(d => d.name === usState) as unknown) as StateData);
+    setStateData(data.find(d => d.fips === usState) as StateData);
   }, [usState]);
 
   return (
