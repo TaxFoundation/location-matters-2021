@@ -9,7 +9,8 @@ const XAxis: React.VFC<{
   scale: ScaleBand<string>;
   dimensions: dimensions;
   margin: margin;
-}> = ({ title, domain, scale, dimensions, margin }) => {
+  yPos: number;
+}> = ({ title, domain, scale, dimensions, margin, yPos }) => {
   const bottom: number = dimensions.height - margin.top - margin.bottom;
   const xPosition = (value: string): number => {
     return scale(value)! + scale.bandwidth() / 2;
@@ -28,8 +29,8 @@ const XAxis: React.VFC<{
       <line
         x1={0}
         x2={dimensions.width - margin.left - margin.right}
-        y1={bottom}
-        y2={bottom}
+        y1={yPos}
+        y2={yPos}
         stroke="currentColor"
       />
       {domain.map(value => (

@@ -63,7 +63,7 @@ const Bars: React.VFC<{
   type: string;
   yScale: ScaleLinear<number, number>;
 }> = ({ rates, type, yScale }) => {
-  const bottom = dimensions.height - margin.top - margin.bottom;
+  const yPos = yScale(0);
   const totalRates = rates.ui + rates.s + rates.p + rates.i;
   const absoluteTotal =
     Math.abs(rates.ui) +
@@ -80,28 +80,28 @@ const Bars: React.VFC<{
       title: 'Unemployment Insurance',
       fill: '#C9202F',
       height: uiHeight,
-      y: bottom - uiHeight,
+      y: yPos - uiHeight,
     },
     {
       rate: rates.s,
       title: 'Sales Tax',
       fill: '#F89821',
       height: sHeight,
-      y: bottom - uiHeight - sHeight,
+      y: yPos - uiHeight - sHeight,
     },
     {
       rate: rates.p,
       title: 'Property Tax',
       fill: '#019E8A',
       height: pHeight,
-      y: bottom - uiHeight - sHeight - pHeight,
+      y: yPos - uiHeight - sHeight - pHeight,
     },
     {
       rate: rates.i,
       title: 'Income Tax',
       fill: '#1CBDF0',
       height: iHeight,
-      y: bottom - uiHeight - sHeight - pHeight - iHeight,
+      y: yPos - uiHeight - sHeight - pHeight - iHeight,
     },
   ];
 
@@ -111,7 +111,7 @@ const Bars: React.VFC<{
         fontSize="11px"
         transform={`translate(
           ${oldAndNewScale.bandwidth() / 2},
-          ${yScale(totalRates) - 17}
+          ${totalRates >= 0 ? yScale(totalRates) - 17 : yPos - 17}
         )`}
       >
         {type}
@@ -120,7 +120,7 @@ const Bars: React.VFC<{
         fontSize="11px"
         transform={`translate(
           ${oldAndNewScale.bandwidth() / 2},
-          ${yScale(totalRates) - 5}
+          ${totalRates >= 0 ? yScale(totalRates) - 5 : yPos - 5}
         )`}
       >
         {formatter(totalRates)}
@@ -143,7 +143,7 @@ const Bars: React.VFC<{
           rate={totalRates}
           fill="#1B2E68"
           width={oldAndNewScale.bandwidth()}
-          y={bottom - getHeight(yScale(0), yScale(totalRates))}
+          y={totalRates >= 0 ? yScale(totalRates) : yScale(0)}
           height={getHeight(yScale(0), yScale(totalRates))}
         />
       )}
@@ -171,7 +171,11 @@ const BarChart: React.VFC<{ firms: Firm[] }> = ({ firms }) => {
       Math.max(...firms.map(f => f.tetr.old)) + 0.05,
       Math.max(...firms.map(f => f.tetr.new)) + 0.05,
     ),
-    0,
+    Math.min(
+      0,
+      Math.min(...firms.map(f => f.tetr.old)) - 0.05,
+      Math.min(...firms.map(f => f.tetr.new)) - 0.05,
+    ),
   ];
   yScale.domain(yDomain);
   yScale.range([0, dimensions.height - margin.top - margin.bottom]);
@@ -196,6 +200,7 @@ const BarChart: React.VFC<{ firms: Firm[] }> = ({ firms }) => {
           scale={firmScale}
           dimensions={dimensions}
           margin={margin}
+          yPos={yScale(0)}
         />
       </svg>
     </div>
