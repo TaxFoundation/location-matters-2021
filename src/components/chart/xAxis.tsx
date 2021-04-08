@@ -50,7 +50,7 @@ const XAxis: React.VFC<{
             stroke="currentColor"
           ></line>
           <Text transform="translate(0, 20px)" fontSize="14px">
-            {value.split(' ').map((word, i) => {
+            {value.split(/[\s-]/).map((word, i) => {
               return (
                 <tspan
                   key={`firm-${value}-${i}`}
