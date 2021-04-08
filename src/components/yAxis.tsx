@@ -11,12 +11,10 @@ const YAxis: React.VFC<{
   dimensions: dimensions;
   margin: margin;
 }> = ({ title, domain, scale, dimensions, margin }) => {
-  const ticks = useMemo(() => {
-    return scale.ticks().map((value: any) => ({
-      value,
-      yOffset: scale(value),
-    }));
-  }, []);
+  const ticks = scale.ticks().map((value: any) => ({
+    value,
+    yOffset: scale(value),
+  }));
 
   const labelPosition = (dimensions.height - margin.top - margin.bottom) / 2;
 

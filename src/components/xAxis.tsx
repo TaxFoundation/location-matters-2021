@@ -46,7 +46,7 @@ const XAxis: React.VFC<{
                 <tspan
                   key={`firm-${value}-${i}`}
                   x={xPosition(value)}
-                  dy={16 * i}
+                  dy={i === 0 ? 0 : 16}
                 >
                   {word}
                 </tspan>

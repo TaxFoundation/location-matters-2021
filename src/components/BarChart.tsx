@@ -15,11 +15,9 @@ const dimensions: dimensions = {
 const margin: margin = {
   top: 20,
   right: 20,
-  bottom: 70,
+  bottom: 90,
   left: 60,
 };
-
-const yDomain: number[] = [0.35, 0];
 
 const firmScale: ScaleBand<string> = scaleBand();
 firmScale.domain(firmTypes);
@@ -32,10 +30,6 @@ oldAndNewScale.domain(['Old', 'New']);
 oldAndNewScale.range([0, firmScale.bandwidth()]);
 oldAndNewScale.round(true);
 oldAndNewScale.padding(0.1);
-
-const yScale: ScaleLinear<number, number> = scaleLinear();
-yScale.domain(yDomain);
-yScale.range([0, dimensions.height - margin.top - margin.bottom]);
 
 const getHeight = (scaleZero: number, scaleRate: number): number => {
   return Math.abs(scaleZero - scaleRate);
@@ -67,9 +61,15 @@ const Bar = ({
 const Bars: React.VFC<{
   rates: Rates;
   type: string;
-}> = ({ rates, type }) => {
+  yScale: ScaleLinear<number, number>;
+}> = ({ rates, type, yScale }) => {
   const bottom = dimensions.height - margin.top - margin.bottom;
   const totalRates = rates.ui + rates.s + rates.p + rates.i;
+  const absoluteTotal =
+    Math.abs(rates.ui) +
+    Math.abs(rates.s) +
+    Math.abs(rates.p) +
+    Math.abs(rates.i);
   const uiHeight = getHeight(yScale(0), yScale(rates.ui));
   const sHeight = getHeight(yScale(0), yScale(rates.s));
   const pHeight = getHeight(yScale(0), yScale(rates.p));
@@ -108,6 +108,16 @@ const Bars: React.VFC<{
   return (
     <g transform={`translate(${oldAndNewScale(type)}, 0)`}>
       <Text
+        fontSize="11px"
+        transform={`translate(
+          ${oldAndNewScale.bandwidth() / 2},
+          ${yScale(totalRates) - 17}
+        )`}
+      >
+        {type}
+      </Text>
+      <Text
+        fontSize="11px"
         transform={`translate(
           ${oldAndNewScale.bandwidth() / 2},
           ${yScale(totalRates) - 5}
@@ -115,33 +125,56 @@ const Bars: React.VFC<{
       >
         {formatter(totalRates)}
       </Text>
-      {bars.map(bar => (
+      {absoluteTotal === totalRates ? (
+        bars.map(bar => (
+          <Bar
+            key={`${type}-${bar.title}`}
+            title={bar.title}
+            rate={bar.rate}
+            fill={bar.fill}
+            width={oldAndNewScale.bandwidth()}
+            y={bar.y}
+            height={bar.height}
+          />
+        ))
+      ) : (
         <Bar
-          key={`${type}-${bar.title}`}
-          title={bar.title}
-          rate={bar.rate}
-          fill={bar.fill}
+          title="Combined Total Rate"
+          rate={totalRates}
+          fill="#1B2E68"
           width={oldAndNewScale.bandwidth()}
-          y={bar.y}
-          height={bar.height}
+          y={bottom - getHeight(yScale(0), yScale(totalRates))}
+          height={getHeight(yScale(0), yScale(totalRates))}
         />
-      ))}
+      )}
     </g>
   );
 };
 
 const BarGroup: React.VFC<{
   firm: Firm;
-}> = ({ firm }) => {
+  yScale: ScaleLinear<number, number>;
+}> = ({ firm, yScale }) => {
   return (
     <g transform={`translate(${firmScale(firm.name)}, 0)`}>
-      <Bars rates={firm.old} type="Old" />
-      <Bars rates={firm.new} type="New" />
+      <Bars rates={firm.old} type="Old" yScale={yScale} />
+      <Bars rates={firm.new} type="New" yScale={yScale} />
     </g>
   );
 };
 
 const BarChart: React.VFC<{ firms: Firm[] }> = ({ firms }) => {
+  const yScale: ScaleLinear<number, number> = scaleLinear();
+  const yDomain = [
+    Math.max(
+      0.35,
+      Math.max(...firms.map(f => f.tetr.old)) + 0.05,
+      Math.max(...firms.map(f => f.tetr.new)) + 0.05,
+    ),
+    0,
+  ];
+  yScale.domain(yDomain);
+  yScale.range([0, dimensions.height - margin.top - margin.bottom]);
   return (
     <div>
       <svg viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}>
@@ -154,7 +187,7 @@ const BarChart: React.VFC<{ firms: Firm[] }> = ({ firms }) => {
         />
         <g id="bars" transform={`translate(${margin.left}, ${margin.right})`}>
           {firms.map(firm => (
-            <BarGroup key={`firm-${firm.name}`} firm={firm} />
+            <BarGroup key={`firm-${firm.name}`} firm={firm} yScale={yScale} />
           ))}
         </g>
         <XAxis
