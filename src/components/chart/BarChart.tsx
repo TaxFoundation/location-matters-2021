@@ -1,8 +1,11 @@
 import React from 'react';
 import { scaleLinear, scaleBand, ScaleBand, ScaleLinear } from 'd3-scale';
 
-import firmTypes from '../data/firm-types.json';
-import { formatter } from '../helpers';
+import firmTypes from '../../data/firm-types.json';
+import taxTypes from '../../data/tax-types.json';
+import { formatter } from '../../helpers';
+import Legend from './Legend';
+import Bar from './Bar';
 import XAxis from './xAxis';
 import YAxis from './yAxis';
 import Text from './Text';
@@ -35,29 +38,6 @@ const getHeight = (scaleZero: number, scaleRate: number): number => {
   return Math.abs(scaleZero - scaleRate);
 };
 
-const Bar = ({
-  title,
-  rate,
-  fill,
-  y,
-  width,
-  height,
-}: {
-  title: string;
-  rate: number;
-  fill: string;
-  y: number;
-  width: number;
-  height: number;
-}): JSX.Element => {
-  return (
-    <g>
-      <title>{`${title}: ${formatter(rate)}`}</title>
-      <rect fill={fill} y={y} width={width} height={height}></rect>
-    </g>
-  );
-};
-
 const Bars: React.VFC<{
   rates: Rates;
   type: string;
@@ -77,29 +57,29 @@ const Bars: React.VFC<{
   const bars = [
     {
       rate: rates.ui,
-      title: 'Unemployment Insurance',
-      fill: '#C9202F',
+      title: taxTypes.ui.name,
+      fill: taxTypes.ui.color,
       height: uiHeight,
       y: yPos - uiHeight,
     },
     {
       rate: rates.s,
-      title: 'Sales Tax',
-      fill: '#F89821',
+      title: taxTypes.s.name,
+      fill: taxTypes.s.color,
       height: sHeight,
       y: yPos - uiHeight - sHeight,
     },
     {
       rate: rates.p,
-      title: 'Property Tax',
-      fill: '#019E8A',
+      title: taxTypes.p.name,
+      fill: taxTypes.p.color,
       height: pHeight,
       y: yPos - uiHeight - sHeight - pHeight,
     },
     {
       rate: rates.i,
-      title: 'Income Tax',
-      fill: '#1CBDF0',
+      title: taxTypes.i.name,
+      fill: taxTypes.i.color,
       height: iHeight,
       y: yPos - uiHeight - sHeight - pHeight - iHeight,
     },
@@ -181,6 +161,7 @@ const BarChart: React.VFC<{ firms: Firm[] }> = ({ firms }) => {
   yScale.range([0, dimensions.height - margin.top - margin.bottom]);
   return (
     <div>
+      <Legend />
       <svg viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}>
         <YAxis
           title="Tax Rate"

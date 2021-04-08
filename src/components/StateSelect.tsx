@@ -11,7 +11,7 @@ const Container = styled.div`
   display: grid;
   grid-gap: 1rem;
   grid-template: repeat(2, 1fr) / auto;
-  margin: 0 auto;
+  margin: 0 auto 1rem;
   max-width: 800px;
   padding: 1rem;
   text-align: center;

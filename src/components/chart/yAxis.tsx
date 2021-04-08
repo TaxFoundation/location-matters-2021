@@ -1,7 +1,7 @@
 import { ScaleLinear } from 'd3-scale';
-import React, { useMemo } from 'react';
+import React from 'react';
 
-import { formatter } from '../helpers';
+import { formatter } from '../../helpers';
 import Text from './Text';
 
 const YAxis: React.VFC<{
@@ -11,7 +11,7 @@ const YAxis: React.VFC<{
   dimensions: dimensions;
   margin: margin;
 }> = ({ title, domain, scale, dimensions, margin }) => {
-  const ticks = scale.ticks().map((value: any) => ({
+  const ticks = scale.ticks().map((value: number) => ({
     value,
     yOffset: scale(value),
   }));

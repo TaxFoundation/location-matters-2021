@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 
 import data from './data/location-matters-data.json';
-import text from './data/lm-text.json';
+// import text from './data/lm-text.json';
 
 import StateSelect from './components/StateSelect';
-import BarChart from './components/BarChart';
+import BarChart from './components/chart/BarChart';
 
 function App(): JSX.Element {
   const [usState, setUsState] = useState<number>(1);

@@ -1,0 +1,7 @@
+{
+  "ui": { "name": "Unemployment Insurance", "color": "#019E8A" },
+  "s": { "name": "Sales", "color": "#ED1979" },
+  "p": { "name": "Property", "color": "#1CBDF0" },
+  "i": { "name": "Income & Business", "color": "#017EBE" },
+  "t": { "name": "Combined Total", "color": "#1B2E68" }
+}

@@ -13,6 +13,7 @@ const XAxis: React.VFC<{
 }> = ({ title, domain, scale, dimensions, margin, yPos }) => {
   const bottom: number = dimensions.height - margin.top - margin.bottom;
   const xPosition = (value: string): number => {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     return scale(value)! + scale.bandwidth() / 2;
   };
 
@@ -26,6 +27,13 @@ const XAxis: React.VFC<{
       >
         {title}
       </Text>
+      <line
+        x1={0}
+        x2={dimensions.width - margin.left - margin.right}
+        y1={bottom}
+        y2={bottom}
+        stroke="#ccc"
+      />
       <line
         x1={0}
         x2={dimensions.width - margin.left - margin.right}

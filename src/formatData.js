@@ -12,6 +12,10 @@ const workbook = XLSX.readFile(SOURCE);
 const worksheet = workbook.Sheets[workbook.SheetNames[0]];
 const rawData = XLSX.utils.sheet_to_json(worksheet);
 
+const formatValue = percentage => {
+  return Number(percentage.toFixed(3));
+};
+
 const processedData = [];
 
 function buildData() {
@@ -54,19 +58,19 @@ function buildData() {
     );
     processedData[stateLocation].firms[firmLocation][
       entry.Status === 'Mature' ? 'old' : 'new'
-    ].ui = entry.UI;
+    ].ui = formatValue(entry.UI);
     processedData[stateLocation].firms[firmLocation][
       entry.Status === 'Mature' ? 'old' : 'new'
-    ].s = entry.Sales;
+    ].s = formatValue(entry.Sales);
     processedData[stateLocation].firms[firmLocation][
       entry.Status === 'Mature' ? 'old' : 'new'
-    ].p = entry.Property;
+    ].p = formatValue(entry.Property);
     processedData[stateLocation].firms[firmLocation][
       entry.Status === 'Mature' ? 'old' : 'new'
-    ].i = entry['Income & Business'];
+    ].i = formatValue(entry['Income & Business']);
     processedData[stateLocation].firms[firmLocation].tetr[
       entry.Status === 'Mature' ? 'old' : 'new'
-    ] = entry.Total;
+    ] = formatValue(entry.Total);
   });
 
   fs.writeFileSync(DEST, JSON.stringify(processedData));
