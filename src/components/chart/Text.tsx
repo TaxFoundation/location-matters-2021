@@ -18,7 +18,6 @@ const Text: React.FC<IText> = ({
   textAnchor = 'middle',
   transform = 'none',
 }) => {
-  console.log(transform);
   return (
     <text
       style={{
