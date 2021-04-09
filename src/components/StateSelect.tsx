@@ -61,8 +61,8 @@ const StateSelect = ({ value, setValue }: ISelectProps): JSX.Element => {
       <Heading>Choose a State</Heading>
       <SelectContainer>
         <Select
-          name="option-select"
-          id="option-select"
+          name="state-select"
+          id="state-select"
           value={value}
           onChange={e => setValue(+e.target.value)}
         >

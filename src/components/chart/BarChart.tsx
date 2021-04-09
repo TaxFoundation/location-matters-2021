@@ -162,7 +162,10 @@ const BarChart: React.VFC<{ firms: Firm[] }> = ({ firms }) => {
   return (
     <div>
       <Legend />
-      <svg viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}>
+      <svg
+        id="bar-chart"
+        viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}
+      >
         <YAxis
           title="Tax Rate"
           domain={yDomain}
