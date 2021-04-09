@@ -28,6 +28,7 @@ const Text: React.FC<IText> = ({
         stroke,
         transform,
       }}
+      transform={transform}
       textAnchor={textAnchor}
     >
       {children}
