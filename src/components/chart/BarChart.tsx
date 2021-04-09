@@ -85,23 +85,20 @@ const Bars: React.VFC<{
     },
   ];
 
+  const labelXPos = oldAndNewScale.bandwidth() / 2;
+  const labelYPos = totalRates >= 0 ? yScale(totalRates) - 17 : yPos - 17;
+
   return (
     <g transform={`translate(${oldAndNewScale(type)}, 0)`}>
       <Text
         fontSize="11px"
-        transform={`translate(
-          ${oldAndNewScale.bandwidth() / 2},
-          ${totalRates >= 0 ? yScale(totalRates) - 17 : yPos - 17}
-        )`}
+        transform={`translate(${labelXPos}px, ${labelYPos}px)`}
       >
         {type}
       </Text>
       <Text
         fontSize="11px"
-        transform={`translate(
-          ${oldAndNewScale.bandwidth() / 2},
-          ${totalRates >= 0 ? yScale(totalRates) - 5 : yPos - 5}
-        )`}
+        transform={`translate(${labelXPos}px, ${labelYPos + 12}px)`}
       >
         {formatter(totalRates)}
       </Text>

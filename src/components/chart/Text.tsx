@@ -1,12 +1,38 @@
-import styled from 'styled-components';
+import React from 'react';
 
-const Text = styled.text`
-  font-family: 'Lato', sans-serif;
-  font-size: ${props => (props.fontSize ? props.fontSize : '12px')};
-  font-weight: ${props => (props.fontWeight ? props.fontWeight : 300)};
-  stroke: ${props => (props.stroke ? props.stroke : 'currentColor')};
-  text-anchor: ${props => (props.textAnchor ? props.textAnchor : 'middle')};
-  transform: ${props => (props.transform ? props.transform : 'translate(0,0)')};
-`;
+interface IText {
+  fontFamily?: string;
+  fontSize?: string;
+  fontWeight?: number;
+  stroke?: string;
+  textAnchor?: string;
+  transform?: string;
+}
+
+const Text: React.FC<IText> = ({
+  children,
+  fontFamily = `'Lato', sans-serif`,
+  fontSize = '12px',
+  fontWeight = 300,
+  stroke = 'currentColor',
+  textAnchor = 'middle',
+  transform = 'none',
+}) => {
+  console.log(transform);
+  return (
+    <text
+      style={{
+        fontFamily,
+        fontSize,
+        fontWeight,
+        stroke,
+        transform,
+      }}
+      textAnchor={textAnchor}
+    >
+      {children}
+    </text>
+  );
+};
 
 export default Text;
