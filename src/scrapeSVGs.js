@@ -23,7 +23,7 @@ const getSVGs = async () => {
       path.resolve(__dirname, `svgOutputs/${STATES[i].abbr}.svg`),
       SVG,
     );
-    console.log(`Wrote SVG file for ${STATE[i].name}...`);
+    console.log(`Wrote SVG file for ${STATES[i].name}...`);
   }
   console.log('All done!');
   await browser.close();
