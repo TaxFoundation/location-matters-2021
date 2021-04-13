@@ -11,7 +11,7 @@ function App(): JSX.Element {
   const [stateData, setStateData] = useState<StateData | null>(null);
 
   useEffect(() => {
-    setStateData(data.find(d => d.fips === usState) as StateData);
+    setStateData((data.find(d => d.fips === usState) as unknown) as StateData);
   }, [usState]);
 
   return (

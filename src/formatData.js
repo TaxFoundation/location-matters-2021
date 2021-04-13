@@ -5,7 +5,7 @@ const fs = require('fs');
 
 const STATES = require('./data/states.json');
 
-const SOURCE = path.resolve(__dirname, 'data/Firm_Ranks.xlsx');
+const SOURCE = path.resolve(__dirname, 'data/location-matters.xlsx');
 const DEST = path.resolve(__dirname, 'data/location-matters-data.json');
 
 const workbook = XLSX.readFile(SOURCE);
@@ -13,6 +13,9 @@ const worksheet = workbook.Sheets[workbook.SheetNames[0]];
 const rawData = XLSX.utils.sheet_to_json(worksheet);
 
 const formatValue = percentage => {
+  if (typeof percentage === 'string') {
+    return Number(Number(percentage).toFixed(3));
+  }
   return Number(percentage.toFixed(3));
 };
 
@@ -35,6 +38,7 @@ function buildData() {
     ) {
       processedData[stateLocation].firms.push({
         name: entry.Firm,
+        rank: 0,
         new: {
           ui: 0,
           s: 0,
@@ -56,21 +60,24 @@ function buildData() {
     const firmLocation = processedData[stateLocation].firms.findIndex(
       firm => firm.name === entry.Firm,
     );
+    processedData[stateLocation].firms[firmLocation].rank = formatValue(
+      String(entry.Rank).replace(/[()]/g, ''),
+    );
     processedData[stateLocation].firms[firmLocation][
       entry.Status === 'Mature' ? 'old' : 'new'
-    ].ui = formatValue(entry.UI);
+    ].ui = formatValue(entry['UI Taxes']);
     processedData[stateLocation].firms[firmLocation][
       entry.Status === 'Mature' ? 'old' : 'new'
-    ].s = formatValue(entry.Sales);
+    ].s = formatValue(entry['Sales Taxes']);
     processedData[stateLocation].firms[firmLocation][
       entry.Status === 'Mature' ? 'old' : 'new'
-    ].p = formatValue(entry.Property);
+    ].p = formatValue(entry['Property Taxes']);
     processedData[stateLocation].firms[firmLocation][
       entry.Status === 'Mature' ? 'old' : 'new'
-    ].i = formatValue(entry['Income & Business']);
+    ].i = formatValue(entry['Income & Business Taxes']);
     processedData[stateLocation].firms[firmLocation].tetr[
       entry.Status === 'Mature' ? 'old' : 'new'
-    ] = formatValue(entry.Total);
+    ] = formatValue(entry['Total Effective Tax Rate']);
   });
 
   fs.writeFileSync(DEST, JSON.stringify(processedData));

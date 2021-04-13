@@ -7,6 +7,7 @@ interface Rates {
 
 interface Firm {
   name: string;
+  rank: number;
   new: Rates;
   old: Rates;
   tetr: {
