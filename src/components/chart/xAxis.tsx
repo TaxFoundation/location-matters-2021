@@ -73,7 +73,7 @@ const XAxis: React.VFC<{
               textAnchor="end"
               transform={`translate(${oldAndNewScale('New')}, 0)`}
             >
-              O
+              N
             </Text>
           </g>
           <Text transform="translate(0, 35px)" fontSize="14px">
