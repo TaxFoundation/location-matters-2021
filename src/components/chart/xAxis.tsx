@@ -6,15 +6,24 @@ import Text from './Text';
 const XAxis: React.VFC<{
   title: string;
   domain: string[];
-  scale: ScaleBand<string>;
+  firmScale: ScaleBand<string>;
+  oldAndNewScale: ScaleBand<string>;
   dimensions: dimensions;
   margin: margin;
   yPos: number;
-}> = ({ title, domain, scale, dimensions, margin, yPos }) => {
+}> = ({
+  title,
+  domain,
+  firmScale,
+  oldAndNewScale,
+  dimensions,
+  margin,
+  yPos,
+}) => {
   const bottom: number = dimensions.height - margin.top - margin.bottom;
   const xPosition = (value: string): number => {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    return scale(value)! + scale.bandwidth() / 2;
+    return firmScale(value)! + firmScale.bandwidth() / 2;
   };
 
   const labelPosition = (dimensions.width - margin.left - margin.right) / 2;
@@ -49,18 +58,39 @@ const XAxis: React.VFC<{
             y2="6"
             stroke="currentColor"
           ></line>
-          <Text transform="translate(0, 20px)" fontSize="14px">
-            {value.split(/[\s-]/).map((word, i) => {
-              return (
-                <tspan
-                  key={`firm-${value}-${i}`}
-                  x={xPosition(value)}
-                  dy={i === 0 ? 0 : 16}
-                >
-                  {word}
-                </tspan>
-              );
-            })}
+          <g
+            transform={`translate(${
+              xPosition(value) - oldAndNewScale.bandwidth() / 2
+            }, 15)`}
+          >
+            <Text
+              textAnchor="end"
+              transform={`translate(${oldAndNewScale('Old')}, 0)`}
+            >
+              M
+            </Text>
+            <Text
+              textAnchor="end"
+              transform={`translate(${oldAndNewScale('New')}, 0)`}
+            >
+              O
+            </Text>
+          </g>
+          <Text transform="translate(0, 35px)" fontSize="14px">
+            {value
+              .replace('-', '- ')
+              .split(/[\s]/)
+              .map((word, i) => {
+                return (
+                  <tspan
+                    key={`firm-${value}-${i}`}
+                    x={xPosition(value)}
+                    dy={i === 0 ? 0 : 16}
+                  >
+                    {word}
+                  </tspan>
+                );
+              })}
           </Text>
         </g>
       ))}

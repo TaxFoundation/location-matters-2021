@@ -18,7 +18,7 @@ const dimensions: dimensions = {
 const margin: margin = {
   top: 20,
   right: 20,
-  bottom: 90,
+  bottom: 100,
   left: 60,
 };
 
@@ -86,19 +86,13 @@ const Bars: React.VFC<{
   ];
 
   const labelXPos = oldAndNewScale.bandwidth() / 2;
-  const labelYPos = totalRates >= 0 ? yScale(totalRates) - 17 : yPos - 17;
+  const labelYPos = totalRates >= 0 ? yScale(totalRates) - 5 : yPos - 5;
 
   return (
     <g transform={`translate(${oldAndNewScale(type)}, 0)`}>
       <Text
         fontSize="11px"
         transform={`translate(${labelXPos}px, ${labelYPos}px)`}
-      >
-        {type}
-      </Text>
-      <Text
-        fontSize="11px"
-        transform={`translate(${labelXPos}px, ${labelYPos + 12}px)`}
       >
         {formatter(totalRates)}
       </Text>
@@ -184,7 +178,8 @@ const BarChart: React.VFC<{ state: string; firms: Firm[] }> = ({
         <XAxis
           title="Type of Firm"
           domain={firmTypes}
-          scale={firmScale}
+          firmScale={firmScale}
+          oldAndNewScale={oldAndNewScale}
           dimensions={dimensions}
           margin={margin}
           yPos={yScale(0)}
