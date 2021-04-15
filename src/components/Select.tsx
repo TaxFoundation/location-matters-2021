@@ -1,8 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import STATES from '../data/states.json';
-
 const Container = styled.div`
   background-color: #0094ff;
   border: 1px solid #0094ff;
@@ -39,7 +37,7 @@ const SelectContainer = styled.div`
   }
 `;
 
-const Select = styled.select`
+const StyledSelect = styled.select`
   appearance: none;
   background-color: transparent;
   cursor: pointer;
@@ -50,33 +48,37 @@ const Select = styled.select`
   z-index: 1;
 `;
 
+interface ISelectOption {
+  id: number;
+  name: string;
+}
+
 interface ISelectProps {
+  options: ISelectOption[];
   value: number;
   setValue: (value: number) => void;
 }
 
-const StateSelect = ({ value, setValue }: ISelectProps): JSX.Element => {
+const Select = ({ options, value, setValue }: ISelectProps): JSX.Element => {
   return (
     <Container>
       <Heading>Choose a State</Heading>
       <SelectContainer>
-        <Select
+        <StyledSelect
           name="state-select"
           id="state-select"
           value={value}
           onChange={e => setValue(+e.target.value)}
         >
-          {STATES
-            // .sort((a, b) => a.id - b.id)
-            .map(state => (
-              <option key={state.fips} value={state.fips}>
-                {state.name}
-              </option>
-            ))}
-        </Select>
+          {options.map(option => (
+            <option key={option.name} value={option.id}>
+              {option.name}
+            </option>
+          ))}
+        </StyledSelect>
       </SelectContainer>
     </Container>
   );
 };
 
-export default StateSelect;
+export default Select;
