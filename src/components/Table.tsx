@@ -7,7 +7,7 @@ const Table = styled.table`
   td,
   th {
     border: 1px solid #ccc;
-    padding: 0.25rem;
+    padding: 0.5rem;
   }
 
   tbody > tr:nth-child(odd) > td {

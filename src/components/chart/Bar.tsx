@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { formatter } from '../../helpers';
-
 const Bar = ({
   text,
   fill,
