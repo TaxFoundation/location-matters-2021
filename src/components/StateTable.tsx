@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { formatter } from '../helpers';
+import Table from './Table';
 import NumericCell from './NumericCell';
 import _firmTypes from '../data/firm-types.json';
 const firmTypes: string[] = _firmTypes;
@@ -22,7 +23,7 @@ const StateTable: React.VFC<{ data: StateData }> = ({ data }) => {
   return (
     <div>
       <h2>Table of Effective Tax Rates in {data.name}</h2>
-      <table>
+      <Table>
         <thead>
           <tr>
             <th>Firm Type</th>
@@ -41,7 +42,7 @@ const StateTable: React.VFC<{ data: StateData }> = ({ data }) => {
             </tr>
           ))}
         </tbody>
-      </table>
+      </Table>
     </div>
   );
 };

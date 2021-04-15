@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import { formatter } from '../helpers';
 import Select from './Select';
+import Table from './Table';
 import NumericCell from './NumericCell';
 import _firmTypes from '../data/firm-types.json';
 const firmTypes: string[] = _firmTypes;
@@ -25,11 +26,12 @@ const FirmTable: React.VFC<{ data: StateData[] }> = ({ data }) => {
     <div>
       <h2>Firm Comparisons</h2>
       <Select
+        heading="Choose a Firm"
         options={firmTypes.map((s, i) => ({ id: i, name: s }))}
         value={firm}
         setValue={setFirm}
       />
-      <table>
+      <Table>
         <thead>
           <tr>
             <th>State</th>
@@ -52,7 +54,7 @@ const FirmTable: React.VFC<{ data: StateData[] }> = ({ data }) => {
             </tr>
           ))}
         </tbody>
-      </table>
+      </Table>
     </div>
   );
 };

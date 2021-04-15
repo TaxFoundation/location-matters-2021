@@ -6,6 +6,7 @@ import STATES from './data/states.json';
 // import text from './data/lm-text.json';
 
 import Select from './components/Select';
+import HR from './components/HR';
 import BarChart from './components/chart/BarChart';
 import StateTable from './components/StateTable';
 import FirmTable from './components/FirmTable';
@@ -38,12 +39,15 @@ function App(): JSX.Element {
       {stateData && (
         <>
           <Select
+            heading="Choose a State"
             options={STATES.map(s => ({ id: s.fips, name: s.name }))}
             value={usState}
             setValue={setUsState}
           />
           <BarChart state={stateData.name} firms={stateData.firms}></BarChart>
+          <HR />
           <StateTable data={stateData}></StateTable>
+          <HR />
           <FirmTable data={data as StateData[]}></FirmTable>
         </>
       )}

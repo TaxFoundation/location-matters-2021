@@ -55,15 +55,21 @@ interface ISelectOption {
 }
 
 interface ISelectProps {
+  heading: string;
   options: ISelectOption[];
   value: number;
   setValue: (value: number) => void;
 }
 
-const Select = ({ options, value, setValue }: ISelectProps): JSX.Element => {
+const Select = ({
+  heading,
+  options,
+  value,
+  setValue,
+}: ISelectProps): JSX.Element => {
   return (
     <Container>
-      <Heading>Choose a State</Heading>
+      <Heading>{heading}</Heading>
       <SelectContainer>
         <StyledSelect
           name="state-select"
