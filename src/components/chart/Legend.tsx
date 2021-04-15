@@ -10,7 +10,6 @@ const StyledLegend = styled.div`
 
 const TaxType = styled.div`
   border-radius: 4px;
-  color: #fff;
   font-size: 14px;
   padding: 0.5rem;
 `;
@@ -18,19 +17,19 @@ const TaxType = styled.div`
 const Legend = (): JSX.Element => {
   return (
     <StyledLegend>
-      <TaxType style={{ backgroundColor: taxTypes.ui.color }}>
+      <TaxType style={{ border: `3px solid ${taxTypes.ui.color}` }}>
         {taxTypes.ui.name}
       </TaxType>
-      <TaxType style={{ backgroundColor: taxTypes.s.color }}>
+      <TaxType style={{ border: `3px solid ${taxTypes.s.color}` }}>
         {taxTypes.s.name}
       </TaxType>
-      <TaxType style={{ backgroundColor: taxTypes.p.color }}>
+      <TaxType style={{ border: `3px solid ${taxTypes.p.color}` }}>
         {taxTypes.p.name}
       </TaxType>
-      <TaxType style={{ backgroundColor: taxTypes.i.color }}>
+      <TaxType style={{ border: `3px solid ${taxTypes.i.color}` }}>
         {taxTypes.i.name}
       </TaxType>
-      <TaxType style={{ backgroundColor: taxTypes.t.color }}>
+      <TaxType style={{ border: `3px solid ${taxTypes.t.color}` }}>
         {taxTypes.t.name}
       </TaxType>
     </StyledLegend>
