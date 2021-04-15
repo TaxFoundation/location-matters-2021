@@ -3,15 +3,13 @@ import React from 'react';
 import { formatter } from '../../helpers';
 
 const Bar = ({
-  title,
-  rate,
+  text,
   fill,
   y,
   width,
   height,
 }: {
-  title: string;
-  rate: number;
+  text: string;
   fill: string;
   y: number;
   width: number;
@@ -19,7 +17,7 @@ const Bar = ({
 }): JSX.Element => {
   return (
     <g>
-      <title>{`${title}: ${formatter(rate)}`}</title>
+      <title>{text}</title>
       <rect fill={fill} y={y} width={width} height={height}></rect>
     </g>
   );

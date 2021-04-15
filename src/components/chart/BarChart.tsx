@@ -106,8 +106,7 @@ const Bars: React.VFC<{
         bars.map(bar => (
           <Bar
             key={`${type}-${bar.title}`}
-            title={bar.title}
-            rate={bar.rate}
+            text={`${bar.title}: ${formatter(bar.rate)}`}
             fill={bar.fill}
             width={oldAndNewScale.bandwidth()}
             y={bar.y}
@@ -116,8 +115,11 @@ const Bars: React.VFC<{
         ))
       ) : (
         <Bar
-          title="Combined Total Rate"
-          rate={totalRates}
+          text={`Combined Total Rate: ${formatter(totalRates)}\nUI: ${formatter(
+            rates.ui,
+          )}\nSales: ${formatter(rates.s)}\nProperty: ${formatter(
+            rates.p,
+          )}\nIncome: ${formatter(rates.i)}`}
           fill="#1B2E68"
           width={oldAndNewScale.bandwidth()}
           y={totalRates >= 0 ? yScale(totalRates) : yScale(0)}
