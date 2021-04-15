@@ -26,17 +26,17 @@ const Legend = (): JSX.Element => {
   return (
     <>
       <StyledLegend>
-        <TaxType style={{ border: `5px solid ${taxTypes.ui.color}` }}>
-          {taxTypes.ui.name}
-        </TaxType>
-        <TaxType style={{ border: `5px solid ${taxTypes.s.color}` }}>
-          {taxTypes.s.name}
+        <TaxType style={{ border: `5px solid ${taxTypes.i.color}` }}>
+          {taxTypes.i.name}
         </TaxType>
         <TaxType style={{ border: `5px solid ${taxTypes.p.color}` }}>
           {taxTypes.p.name}
         </TaxType>
-        <TaxType style={{ border: `5px solid ${taxTypes.i.color}` }}>
-          {taxTypes.i.name}
+        <TaxType style={{ border: `5px solid ${taxTypes.s.color}` }}>
+          {taxTypes.s.name}
+        </TaxType>
+        <TaxType style={{ border: `5px solid ${taxTypes.ui.color}` }}>
+          {taxTypes.ui.name}
         </TaxType>
         <TaxType style={{ border: `5px solid ${taxTypes.t.color}` }}>
           {taxTypes.t.name}*

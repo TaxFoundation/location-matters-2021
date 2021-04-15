@@ -40,16 +40,16 @@ function buildData() {
         name: entry.Firm,
         rank: 0,
         new: {
-          ui: 0,
-          s: 0,
-          p: 0,
           i: 0,
+          p: 0,
+          s: 0,
+          ui: 0,
         },
         old: {
-          ui: 0,
-          s: 0,
-          p: 0,
           i: 0,
+          p: 0,
+          s: 0,
+          ui: 0,
         },
         tetr: {
           new: 0,

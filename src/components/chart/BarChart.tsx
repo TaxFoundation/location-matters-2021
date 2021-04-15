@@ -56,32 +56,32 @@ const Bars: React.VFC<{
   const iHeight = getHeight(yScale(0), yScale(rates.i));
   const bars = [
     {
-      rate: rates.ui,
-      title: taxTypes.ui.name,
-      fill: taxTypes.ui.color,
-      height: uiHeight,
-      y: yPos - uiHeight,
-    },
-    {
-      rate: rates.s,
-      title: taxTypes.s.name,
-      fill: taxTypes.s.color,
-      height: sHeight,
-      y: yPos - uiHeight - sHeight,
+      rate: rates.i,
+      title: taxTypes.i.name,
+      fill: taxTypes.i.color,
+      height: iHeight,
+      y: yPos - iHeight,
     },
     {
       rate: rates.p,
       title: taxTypes.p.name,
       fill: taxTypes.p.color,
       height: pHeight,
-      y: yPos - uiHeight - sHeight - pHeight,
+      y: yPos - iHeight - pHeight,
     },
     {
-      rate: rates.i,
-      title: taxTypes.i.name,
-      fill: taxTypes.i.color,
-      height: iHeight,
-      y: yPos - uiHeight - sHeight - pHeight - iHeight,
+      rate: rates.s,
+      title: taxTypes.s.name,
+      fill: taxTypes.s.color,
+      height: sHeight,
+      y: yPos - iHeight - pHeight - sHeight,
+    },
+    {
+      rate: rates.ui,
+      title: taxTypes.ui.name,
+      fill: taxTypes.ui.color,
+      height: uiHeight,
+      y: yPos - iHeight - sHeight - pHeight - uiHeight,
     },
   ];
 
