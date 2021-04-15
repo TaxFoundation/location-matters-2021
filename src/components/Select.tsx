@@ -40,6 +40,7 @@ const SelectContainer = styled.div`
 const StyledSelect = styled.select`
   appearance: none;
   background-color: transparent;
+  border: none;
   cursor: pointer;
   grid-area: select;
   font-size: 1rem;
