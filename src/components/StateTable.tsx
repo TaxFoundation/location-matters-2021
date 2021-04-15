@@ -36,8 +36,9 @@ const StateTable: React.VFC<{ data: StateData }> = ({ data }) => {
           {firmTypes.map(firm => (
             <tr key={firm}>
               <td>{firm}</td>
-              <NumericCell>{getFirm(data, firm)?.rank}</NumericCell>
+              <NumericCell>{getFirm(data, firm)?.old.rank}</NumericCell>
               <NumericCell>{format(getFirm(data, firm)?.tetr.old)}</NumericCell>
+              <NumericCell>{getFirm(data, firm)?.new.rank}</NumericCell>
               <NumericCell>{format(getFirm(data, firm)?.tetr.new)}</NumericCell>
             </tr>
           ))}

@@ -35,8 +35,9 @@ const FirmTable: React.VFC<{ data: StateData[] }> = ({ data }) => {
         <thead>
           <tr>
             <th>State</th>
-            <th>Ranking</th>
+            <th>Mature Firm Ranking</th>
             <th>Mature Firm Rate</th>
+            <th>New Firm Ranking</th>
             <th>New Firm Rate</th>
           </tr>
         </thead>
@@ -44,9 +45,14 @@ const FirmTable: React.VFC<{ data: StateData[] }> = ({ data }) => {
           {data.map(state => (
             <tr key={state.fips}>
               <td>{state.name}</td>
-              <NumericCell>{getFirm(state, firmTypes[firm])?.rank}</NumericCell>
+              <NumericCell>
+                {getFirm(state, firmTypes[firm])?.old.rank}
+              </NumericCell>
               <NumericCell>
                 {format(getFirm(state, firmTypes[firm])?.tetr.old)}
+              </NumericCell>
+              <NumericCell>
+                {getFirm(state, firmTypes[firm])?.new.rank}
               </NumericCell>
               <NumericCell>
                 {format(getFirm(state, firmTypes[firm])?.tetr.new)}

@@ -3,11 +3,11 @@ interface Rates {
   s: number;
   p: number;
   i: number;
+  rank: number;
 }
 
 interface Firm {
   name: string;
-  rank: number;
   new: Rates;
   old: Rates;
   tetr: {

@@ -38,18 +38,19 @@ function buildData() {
     ) {
       processedData[stateLocation].firms.push({
         name: entry.Firm,
-        rank: 0,
         new: {
           i: 0,
           p: 0,
           s: 0,
           ui: 0,
+          rank: 0,
         },
         old: {
           i: 0,
           p: 0,
           s: 0,
           ui: 0,
+          rank: 0,
         },
         tetr: {
           new: 0,
@@ -60,9 +61,10 @@ function buildData() {
     const firmLocation = processedData[stateLocation].firms.findIndex(
       firm => firm.name === entry.Firm,
     );
-    processedData[stateLocation].firms[firmLocation].rank = formatValue(
-      String(entry.Rank).replace(/[()]/g, ''),
-    );
+
+    processedData[stateLocation].firms[firmLocation][
+      entry.Status === 'Mature' ? 'old' : 'new'
+    ].rank = +String(entry.Rank).replace(/[()]/g, '');
     processedData[stateLocation].firms[firmLocation][
       entry.Status === 'Mature' ? 'old' : 'new'
     ].ui = formatValue(entry['UI Taxes']);

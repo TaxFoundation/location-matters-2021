@@ -16,9 +16,9 @@ const dimensions: dimensions = {
 };
 
 const margin: margin = {
-  top: 20,
+  top: 65,
   right: 20,
-  bottom: 100,
+  bottom: 80,
   left: 60,
 };
 
@@ -91,7 +91,7 @@ const Bars: React.VFC<{
   return (
     <g transform={`translate(${oldAndNewScale(type)}, 0)`}>
       <Text
-        fontSize="11px"
+        fontSize="10px"
         transform={`translate(${labelXPos}px, ${labelYPos}px)`}
       >
         {formatter(totalRates)}
@@ -140,19 +140,22 @@ const BarChart: React.VFC<{ state: string; firms: Firm[] }> = ({
   state,
   firms,
 }) => {
+  const max = Math.max(
+    Math.max(...firms.map(f => f.tetr.old)),
+    Math.max(...firms.map(f => f.tetr.new)),
+  );
+  const min = Math.min(
+    Math.min(...firms.map(f => f.tetr.old)),
+    Math.min(...firms.map(f => f.tetr.new)),
+  );
   const yScale: ScaleLinear<number, number> = scaleLinear();
-  const yDomain = [
-    Math.max(
-      0.35,
-      Math.max(...firms.map(f => f.tetr.old)) + 0.05,
-      Math.max(...firms.map(f => f.tetr.new)) + 0.05,
-    ),
-    Math.min(
-      0,
-      Math.min(...firms.map(f => f.tetr.old)) - 0.05,
-      Math.min(...firms.map(f => f.tetr.new)) - 0.05,
-    ),
-  ];
+  const yDomain = [Math.max(0.35, max + 0.05), min >= 0 ? 0 : min - 0.05];
+
+  const firmRanks = firms.map(firm => ({
+    name: firm.name,
+    old: firm.old.rank,
+    new: firm.new.rank,
+  }));
   yScale.domain(yDomain);
   yScale.range([0, dimensions.height - margin.top - margin.bottom]);
   return (
@@ -170,14 +173,13 @@ const BarChart: React.VFC<{ state: string; firms: Firm[] }> = ({
           dimensions={dimensions}
           margin={margin}
         />
-        <g id="bars" transform={`translate(${margin.left}, ${margin.right})`}>
+        <g id="bars" transform={`translate(${margin.left}, ${margin.top})`}>
           {firms.map(firm => (
             <BarGroup key={`firm-${firm.name}`} firm={firm} yScale={yScale} />
           ))}
         </g>
         <XAxis
-          title="Type of Firm"
-          domain={firmTypes}
+          firms={firmRanks}
           firmScale={firmScale}
           oldAndNewScale={oldAndNewScale}
           dimensions={dimensions}
