@@ -35,7 +35,11 @@ const YAxis: React.VFC<{
             stroke="#eee"
           ></line>
           <line x2="-6" stroke="currentColor"></line>
-          <Text textAnchor="end" transform="translate(-10px, 3px)">
+          <Text
+            fontSize="14px"
+            textAnchor="end"
+            transform="translate(-8px, 3px)"
+          >
             {formatter(value, 0)}
           </Text>
         </g>

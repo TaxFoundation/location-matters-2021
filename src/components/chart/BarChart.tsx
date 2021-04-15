@@ -12,7 +12,7 @@ import Text from './Text';
 
 const dimensions: dimensions = {
   width: 800,
-  height: 500,
+  height: 600,
 };
 
 const margin: margin = {
@@ -142,7 +142,10 @@ const BarGroup: React.VFC<{
   );
 };
 
-const BarChart: React.VFC<{ firms: Firm[] }> = ({ firms }) => {
+const BarChart: React.VFC<{ state: string; firms: Firm[] }> = ({
+  state,
+  firms,
+}) => {
   const yScale: ScaleLinear<number, number> = scaleLinear();
   const yDomain = [
     Math.max(
@@ -160,6 +163,7 @@ const BarChart: React.VFC<{ firms: Firm[] }> = ({ firms }) => {
   yScale.range([0, dimensions.height - margin.top - margin.bottom]);
   return (
     <div>
+      <h2>{`Graph of Effective Tax Rates in ${state}`}</h2>
       <Legend />
       <svg
         id="bar-chart"

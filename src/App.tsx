@@ -5,6 +5,7 @@ import data from './data/location-matters-data.json';
 
 import StateSelect from './components/StateSelect';
 import BarChart from './components/chart/BarChart';
+import StateTable from './components/StateTable';
 
 function App(): JSX.Element {
   const [usState, setUsState] = useState<number>(1);
@@ -19,7 +20,8 @@ function App(): JSX.Element {
       {stateData && (
         <>
           <StateSelect value={usState} setValue={setUsState} />
-          <BarChart firms={stateData.firms}></BarChart>
+          <BarChart state={stateData.name} firms={stateData.firms}></BarChart>
+          <StateTable data={stateData}></StateTable>
         </>
       )}
     </div>
