@@ -27,8 +27,9 @@ const StateTable: React.VFC<{ data: StateData }> = ({ data }) => {
         <thead>
           <tr>
             <th>Firm Type</th>
-            <th>Ranking</th>
+            <th>Mature Firm Rank</th>
             <th>Mature Firm Rate</th>
+            <th>New Firm Rank</th>
             <th>New Firm Rate</th>
           </tr>
         </thead>
