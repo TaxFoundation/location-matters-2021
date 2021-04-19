@@ -2,13 +2,17 @@
 const XLSX = require('xlsx');
 const path = require('path');
 const fs = require('fs');
+const matter = require('gray-matter');
+const showdown = require('showdown');
 
 const STATES = require('./data/states.json');
 
-const SOURCE = path.resolve(__dirname, 'data/location-matters.xlsx');
-const DEST = path.resolve(__dirname, 'data/location-matters-data.json');
+const DATA_SOURCE = path.resolve(__dirname, 'data/location-matters.xlsx');
+const TEXT_SOURCE = path.resolve(__dirname, 'data/state-text/original');
+const DATA_DEST = path.resolve(__dirname, 'data/location-matters-data.json');
+const TEXT_DEST = path.resolve(__dirname, 'data/state-text/cleaned');
 
-const workbook = XLSX.readFile(SOURCE);
+const workbook = XLSX.readFile(DATA_SOURCE);
 const worksheet = workbook.Sheets[workbook.SheetNames[0]];
 const rawData = XLSX.utils.sheet_to_json(worksheet);
 
@@ -20,6 +24,34 @@ const formatValue = percentage => {
 };
 
 const processedData = [];
+
+function buildText() {
+  const files = fs.readdirSync(TEXT_SOURCE);
+  let compiledData = [];
+  for (let i = 0, j = files.length; i < j; i++) {
+    const file = files[i];
+    console.log(`Reading ${file}...`);
+    let state = {};
+    const text = fs.readFileSync(path.join(TEXT_SOURCE, file), 'utf8');
+    const converter = new showdown.Converter({ metadata: true });
+    const html = converter.makeHtml(text);
+    const { data: metadata } = matter(text);
+    state.id = metadata.id;
+    state.name = metadata.name;
+    state.text = html;
+    compiledData.push(state);
+    fs.writeFileSync(
+      path.join(TEXT_DEST, `${state.id}.json`),
+      JSON.stringify(state),
+    );
+    console.log(`Finished parsing ${file}.`);
+  }
+  fs.writeFileSync(
+    path.join(TEXT_DEST, `data.json`),
+    JSON.stringify(compiledData),
+  );
+  console.log('New data written successfully.');
+}
 
 function buildData() {
   rawData.forEach(entry => {
@@ -82,14 +114,19 @@ function buildData() {
     ] = formatValue(entry['Total Effective Tax Rate']);
   });
 
-  fs.writeFileSync(DEST, JSON.stringify(processedData));
+  fs.writeFileSync(DATA_DEST, JSON.stringify(processedData));
   console.log('New data written successfully.');
 }
 
+function buildAll() {
+  buildText();
+  buildData();
+}
+
 if (process.argv.includes('--watch')) {
-  buildData();
+  buildAll();
   console.log('Watching for data chanes...');
-  fs.watch(SOURCE, { encoding: 'utf-8' }, buildData);
+  fs.watch(DATA_SOURCE, { encoding: 'utf-8' }, buildAll);
 } else {
-  buildData();
+  buildAll();
 }
