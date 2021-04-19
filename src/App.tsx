@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { createGlobalStyle } from 'styled-components';
 
 import data from './data/location-matters-data.json';
+import text from './data/state-text/cleaned/data.json';
 import STATES from './data/states.json';
 // import text from './data/lm-text.json';
 
@@ -28,9 +29,12 @@ const GlobalStyle = createGlobalStyle`
 function App(): JSX.Element {
   const [usState, setUsState] = useState<number>(1);
   const [stateData, setStateData] = useState<StateData | null>(null);
+  const [stateText, setStateText] = useState<string>('');
 
   useEffect(() => {
     setStateData((data.find(d => d.fips === usState) as unknown) as StateData);
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    setStateText(text.find(d => d.id === usState)!.text);
   }, [usState]);
 
   return (
@@ -45,6 +49,7 @@ function App(): JSX.Element {
             setValue={setUsState}
           />
           <BarChart state={stateData.name} firms={stateData.firms}></BarChart>
+          <div dangerouslySetInnerHTML={{ __html: stateText }}></div>
           <HR />
           <StateTable data={stateData}></StateTable>
           <HR />
