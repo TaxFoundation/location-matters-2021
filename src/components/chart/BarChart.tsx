@@ -109,11 +109,11 @@ const Bars: React.VFC<{
         ))
       ) : (
         <Bar
-          text={`Combined Total Rate: ${formatter(totalRates)}\nUI: ${formatter(
-            rates.ui,
-          )}\nSales: ${formatter(rates.s)}\nProperty: ${formatter(
-            rates.p,
-          )}\nIncome: ${formatter(rates.i)}`}
+          text={`Combined Total Rate: ${formatter(
+            totalRates,
+          )}\nIncome: ${formatter(rates.i)}\nSales: ${formatter(
+            rates.s,
+          )}\nProperty: ${formatter(rates.p)}\nUI: ${formatter(rates.ui)}`}
           fill="#1B2E68"
           width={oldAndNewScale.bandwidth()}
           y={totalRates >= 0 ? yScale(totalRates) : yScale(0)}
