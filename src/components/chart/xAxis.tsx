@@ -44,8 +44,8 @@ const XAxis: React.VFC<{
         stroke="currentColor"
       />
       {firms.map(firm => (
-        <>
-          <g key={`x-${firm}`} transform={`translate(0, -5)`}>
+        <g key={`x-${firm.name}`}>
+          <g transform={`translate(0, -5)`}>
             <Text fontSize="14px">
               {firm.name
                 .replace('-', '- ')
@@ -90,7 +90,7 @@ const XAxis: React.VFC<{
               </Text>
             </g>
           </g>
-        </>
+        </g>
       ))}
     </g>
   );
