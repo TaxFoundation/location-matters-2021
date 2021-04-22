@@ -146,23 +146,22 @@ const FirmTable: React.VFC<{ data: StateData[] }> = ({ data }) => {
         <tbody>
           {data
             .sort((a, b) => sortStates(a, b, sortBy, firm, asc))
-            .map(state => (
-              <tr key={state.fips}>
-                <td>{state.name}</td>
-                <NumericCell>
-                  {getFirm(state, firmTypes[firm])?.old.rank}
-                </NumericCell>
-                <NumericCell>
-                  {format(getFirm(state, firmTypes[firm])?.tetr.old)}
-                </NumericCell>
-                <NumericCell>
-                  {getFirm(state, firmTypes[firm])?.new.rank}
-                </NumericCell>
-                <NumericCell>
-                  {format(getFirm(state, firmTypes[firm])?.tetr.new)}
-                </NumericCell>
-              </tr>
-            ))}
+            .map(state => {
+              const theFirm = getFirm(state, firmTypes[firm]);
+              return (
+                <tr key={state.fips}>
+                  <td>{state.name}</td>
+                  <NumericCell>{theFirm?.old.rank || 'n.a.'}</NumericCell>
+                  <NumericCell>
+                    {format(theFirm?.tetr.old) || 'n.a.'}
+                  </NumericCell>
+                  <NumericCell>{theFirm?.new.rank || 'n.a.'}</NumericCell>
+                  <NumericCell>
+                    {format(theFirm?.tetr.new) || 'n.a.'}
+                  </NumericCell>
+                </tr>
+              );
+            })}
         </tbody>
       </Table>
     </div>
