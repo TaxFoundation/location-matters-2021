@@ -50,7 +50,7 @@ function buildText() {
     path.join(TEXT_DEST, `data.json`),
     JSON.stringify(compiledData),
   );
-  console.log('New data written successfully.');
+  console.log('New text written successfully.');
 }
 
 function buildData() {
@@ -119,6 +119,9 @@ function buildData() {
 }
 
 function buildAll() {
+  if (!fs.existsSync(TEXT_DEST)) {
+    fs.mkdirSync(TEXT_DEST);
+  }
   buildText();
   buildData();
 }
@@ -127,6 +130,7 @@ if (process.argv.includes('--watch')) {
   buildAll();
   console.log('Watching for data chanes...');
   fs.watch(DATA_SOURCE, { encoding: 'utf-8' }, buildAll);
+  fs.watch(TEXT_SOURCE, { encoding: 'utf-8' }, buildAll);
 } else {
   buildAll();
 }
