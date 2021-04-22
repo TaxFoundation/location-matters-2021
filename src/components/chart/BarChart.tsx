@@ -40,11 +40,11 @@ const getHeight = (scaleZero: number, scaleRate: number): number => {
 
 const Bars: React.VFC<{
   rates: Rates;
+  total: number;
   type: string;
   yScale: ScaleLinear<number, number>;
-}> = ({ rates, type, yScale }) => {
+}> = ({ rates, total, type, yScale }) => {
   const yPos = yScale(0);
-  const totalRates = rates.ui + rates.s + rates.p + rates.i;
   const absoluteTotal =
     Math.abs(rates.ui) +
     Math.abs(rates.s) +
@@ -86,7 +86,7 @@ const Bars: React.VFC<{
   ];
 
   const labelXPos = oldAndNewScale.bandwidth() / 2;
-  const labelYPos = totalRates >= 0 ? yScale(totalRates) - 5 : yPos - 5;
+  const labelYPos = total >= 0 ? yScale(total) - 5 : yPos - 5;
 
   return (
     <g transform={`translate(${oldAndNewScale(type)}, 0)`}>
@@ -94,9 +94,9 @@ const Bars: React.VFC<{
         fontSize="10px"
         transform={`translate(${labelXPos}px, ${labelYPos}px)`}
       >
-        {formatter(totalRates)}
+        {formatter(total)}
       </Text>
-      {absoluteTotal === totalRates ? (
+      {absoluteTotal === total ? (
         bars.map(bar => (
           <Bar
             key={`${type}-${bar.title}`}
@@ -109,15 +109,15 @@ const Bars: React.VFC<{
         ))
       ) : (
         <Bar
-          text={`Combined Total Rate: ${formatter(
-            totalRates,
-          )}\nIncome: ${formatter(rates.i)}\nSales: ${formatter(
-            rates.s,
-          )}\nProperty: ${formatter(rates.p)}\nUI: ${formatter(rates.ui)}`}
+          text={`Combined Total Rate: ${formatter(total)}\nIncome: ${formatter(
+            rates.i,
+          )}\nSales: ${formatter(rates.s)}\nProperty: ${formatter(
+            rates.p,
+          )}\nUI: ${formatter(rates.ui)}`}
           fill="#1B2E68"
           width={oldAndNewScale.bandwidth()}
-          y={totalRates >= 0 ? yScale(totalRates) : yScale(0)}
-          height={getHeight(yScale(0), yScale(totalRates))}
+          y={total >= 0 ? yScale(total) : yScale(0)}
+          height={getHeight(yScale(0), yScale(total))}
         />
       )}
     </g>
@@ -130,8 +130,8 @@ const BarGroup: React.VFC<{
 }> = ({ firm, yScale }) => {
   return (
     <g transform={`translate(${firmScale(firm.name)}, 0)`}>
-      <Bars rates={firm.old} type="Old" yScale={yScale} />
-      <Bars rates={firm.new} type="New" yScale={yScale} />
+      <Bars rates={firm.old} total={firm.tetr.old} type="Old" yScale={yScale} />
+      <Bars rates={firm.new} total={firm.tetr.new} type="New" yScale={yScale} />
     </g>
   );
 };
