@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { createGlobalStyle } from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 
 import data from './data/location-matters-data.json';
 import text from './data/state-text/cleaned/data.json';
 import STATES from './data/states.json';
-// import text from './data/lm-text.json';
 
 import Select from './components/Select';
 import HR from './components/HR';
@@ -24,6 +23,11 @@ const GlobalStyle = createGlobalStyle`
     margin: 0 auto;
     max-width: 800px;
   }
+`;
+
+const StateText = styled.div`
+  font-size: 1rem;
+  line-height: 1.4;
 `;
 
 function App(): JSX.Element {
@@ -49,7 +53,9 @@ function App(): JSX.Element {
             setValue={setUsState}
           />
           <BarChart state={stateData.name} firms={stateData.firms}></BarChart>
-          <div dangerouslySetInnerHTML={{ __html: stateText }}></div>
+          <StateText
+            dangerouslySetInnerHTML={{ __html: stateText }}
+          ></StateText>
           <HR />
           <StateTable data={stateData}></StateTable>
           <HR />
