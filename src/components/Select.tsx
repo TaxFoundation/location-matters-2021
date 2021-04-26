@@ -44,7 +44,9 @@ const StyledSelect = styled.select`
   cursor: pointer;
   grid-area: select;
   font-size: 1rem;
+  padding: 0.5rem 1rem;
   text-align: center;
+  text-align-last: center;
   width: 100%;
   z-index: 1;
 `;
