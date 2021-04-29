@@ -45,11 +45,12 @@ const Bars: React.VFC<{
   yScale: ScaleLinear<number, number>;
 }> = ({ rates, total, type, yScale }) => {
   const yPos = yScale(0);
-  const absoluteTotal =
+  const allPositive =
     Math.abs(rates.ui) +
-    Math.abs(rates.s) +
-    Math.abs(rates.p) +
-    Math.abs(rates.i);
+      Math.abs(rates.s) +
+      Math.abs(rates.p) +
+      Math.abs(rates.i) ===
+    rates.ui + rates.s + rates.p + rates.i;
   const uiHeight = getHeight(yScale(0), yScale(rates.ui));
   const sHeight = getHeight(yScale(0), yScale(rates.s));
   const pHeight = getHeight(yScale(0), yScale(rates.p));
@@ -96,7 +97,7 @@ const Bars: React.VFC<{
       >
         {formatter(total)}
       </Text>
-      {absoluteTotal === total ? (
+      {allPositive ? (
         bars.map(bar => (
           <Bar
             key={`${type}-${bar.title}`}
